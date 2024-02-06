@@ -21,7 +21,7 @@ from bs4 import BeautifulSoup
 import requests
 
 url = "https://www.oreilly.com/ideas/what-is-data-science"
-html = requests.get(url).text
+html = requests.get(url, timeout=60).text
 soup = BeautifulSoup(html, 'html5lib')
 
 content = soup.find("div", "article-body")   # find article-body div
@@ -637,7 +637,7 @@ def main():
     import requests
     
     url = "https://www.ycombinator.com/topcompanies/"
-    soup = BeautifulSoup(requests.get(url).text, 'html5lib')
+    soup = BeautifulSoup(requests.get(url, timeout=60).text, 'html5lib')
     
     # We get the companies twice, so use a set comprehension to deduplicate.
     companies = list({b.text
