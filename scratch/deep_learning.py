@@ -1,3 +1,5 @@
+import secrets
+
 Tensor = list
 
 from typing import List
@@ -119,13 +121,11 @@ class Sigmoid(Layer):
                               self.sigmoids,
                               gradient)
 
-import random
-
 from scratch.probability import inverse_normal_cdf
 
 def random_uniform(*dims: int) -> Tensor:
     if len(dims) == 1:
-        return [random.random() for _ in range(dims[0])]
+        return [secrets.SystemRandom().random() for _ in range(dims[0])]
     else:
         return [random_uniform(*dims[1:]) for _ in range(dims[0])]
 
@@ -133,7 +133,7 @@ def random_normal(*dims: int,
                   mean: float = 0.0,
                   variance: float = 1.0) -> Tensor:
     if len(dims) == 1:
-        return [mean + variance * inverse_normal_cdf(random.random())
+        return [mean + variance * inverse_normal_cdf(secrets.SystemRandom().random())
                 for _ in range(dims[0])]
     else:
         return [random_normal(*dims[1:], mean=mean, variance=variance)
@@ -406,7 +406,7 @@ class Dropout(Layer):
             # Create a mask of 0s and 1s shaped like the input
             # using the specified probability.
             self.mask = tensor_apply(
-                lambda _: 0 if random.random() < self.p else 1,
+                lambda _: 0 if secrets.SystemRandom().random() < self.p else 1,
                 input)
             # Multiply by the mask to dropout inputs.
             return tensor_combine(operator.mul, input, self.mask)
@@ -461,7 +461,7 @@ def main():
     xs = [[0., 0], [0., 1], [1., 0], [1., 1]]
     ys = [[0.], [1.], [1.], [0.]]
     
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     
     net = Sequential([
         Linear(input_dim=2, output_dim=2),
@@ -501,7 +501,7 @@ def main():
     
     NUM_HIDDEN = 25
     
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     
     net = Sequential([
         Linear(input_dim=10, output_dim=NUM_HIDDEN, init='uniform'),
@@ -542,7 +542,7 @@ def main():
     # Now check results on the test set
     print("test results", fizzbuzz_accuracy(1, 101, net))
     
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     
     net = Sequential([
         Linear(input_dim=10, output_dim=NUM_HIDDEN, init='uniform'),
@@ -673,7 +673,7 @@ def main():
     
     # The logistic regression model for MNIST
     
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     
     # Logistic regression is just a linear layer followed by softmax
     model = Linear(784, 10)
@@ -691,7 +691,7 @@ def main():
     
     # A deep neural network for MNIST
     
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     
     # Name them so we can turn train on and off
     dropout1 = Dropout(0.1)

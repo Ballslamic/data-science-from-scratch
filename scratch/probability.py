@@ -1,3 +1,5 @@
+import secrets
+
 def uniform_cdf(x: float) -> float:
     """Returns the probability that a uniform random variable is <= x"""
     if x < 0:   return 0    # uniform random is never less than 0
@@ -65,12 +67,9 @@ def inverse_normal_cdf(p: float,
 
     return mid_z
 
-
-import random
-
 def bernoulli_trial(p: float) -> int:
     """Returns 1 with probability p and 0 with probability 1-p"""
-    return 1 if random.random() < p else 0
+    return 1 if secrets.SystemRandom().random() < p else 0
 
 def binomial(n: int, p: float) -> int:
     """Returns the sum of n bernoulli(p) trials"""
@@ -101,7 +100,7 @@ def binomial_histogram(p: float, n: int, num_points: int) -> None:
 #     plt.show()
 
 def main():
-    import enum, random
+    import enum
     
     # An Enum is a typed set of enumerated values. We can use them
     # to make our code more descriptive and readable.
@@ -110,13 +109,13 @@ def main():
         GIRL = 1
     
     def random_kid() -> Kid:
-        return random.choice([Kid.BOY, Kid.GIRL])
+        return secrets.SystemRandom().choice([Kid.BOY, Kid.GIRL])
     
     both_girls = 0
     older_girl = 0
     either_girl = 0
     
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     
     for _ in range(10000):
         younger = random_kid()

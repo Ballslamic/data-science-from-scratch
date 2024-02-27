@@ -1,8 +1,9 @@
 from collections import Counter
-import math, random
+import math
+import secrets
 
 def random_kid():
-    return random.choice(["boy", "girl"])
+    return secrets.SystemRandom().choice(["boy", "girl"])
 
 def uniform_pdf(x):
     return 1 if x >= 0 and x < 1 else 0
@@ -62,7 +63,7 @@ def inverse_normal_cdf(p, mu=0, sigma=1, tolerance=0.00001):
     return mid_z
 
 def bernoulli_trial(p):
-    return 1 if random.random() < p else 0
+    return 1 if secrets.SystemRandom().random() < p else 0
 
 def binomial(p, n):
     return sum(bernoulli_trial(p) for _ in range(n))
@@ -100,7 +101,7 @@ if __name__ == "__main__":
     older_girl = 0
     either_girl = 0
 
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     for _ in range(10000):
         younger = random_kid()
         older = random_kid()

@@ -1,5 +1,6 @@
 from typing import List
 from collections import Counter
+import secrets
 
 def raw_majority_vote(labels: List[str]) -> str:
     votes = Counter(labels)
@@ -45,11 +46,8 @@ def knn_classify(k: int,
     # and let them vote.
     return majority_vote(k_nearest_labels)
 
-
-import random
-
 def random_point(dim: int) -> Vector:
-    return [random.random() for _ in range(dim)]
+    return [secrets.SystemRandom().random() for _ in range(dim)]
 
 def random_distances(dim: int, num_pairs: int) -> List[float]:
     return [distance(random_point(dim), random_point(dim))
@@ -105,11 +103,9 @@ def main():
     
     plt.savefig('im/iris_scatter.png')
     plt.gca().clear()
-    
-    import random
     from scratch.machine_learning import split_data
     
-    random.seed(12)
+    secrets.SystemRandom().seed(12)
     iris_train, iris_test = split_data(iris_data, 0.70)
     assert len(iris_train) == 0.7 * 150
     assert len(iris_test) == 0.3 * 150
@@ -138,7 +134,7 @@ def main():
     avg_distances = []
     min_distances = []
     
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     for dim in tqdm.tqdm(dimensions, desc="Curse of Dimensionality"):
         distances = random_distances(dim, 10000)      # 10,000 random pairs
         avg_distances.append(sum(distances) / 10000)  # track the average

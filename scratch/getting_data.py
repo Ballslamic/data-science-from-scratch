@@ -1,5 +1,7 @@
 
 # Just stick some data there
+import secrets
+
 with open('email_addresses.txt', 'w') as f:
     f.write("joelgrus@gmail.com\n")
     f.write("joel@m.datasciencester.com\n")
@@ -214,14 +216,7 @@ def main():
     links = {a['href'] for a in soup('a') if 'press releases' in a.text.lower()}
     
     print(links) # {'/media/press-releases'}
-    
-    
-    
-    # I don't want this file to scrape all 400+ websites every time it runs.
-    # So I'm going to randomly throw out most of the urls.
-    # The code in the book doesn't do this.
-    import random
-    good_urls = random.sample(good_urls, 5)
+    good_urls = secrets.SystemRandom().sample(good_urls, 5)
     print(f"after sampling, left with {good_urls}")
     
     from typing import Dict, Set

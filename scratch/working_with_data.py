@@ -3,6 +3,7 @@ from collections import Counter
 import math
 
 import matplotlib.pyplot as plt
+import secrets
 
 def bucketize(point: float, bucket_size: float) -> float:
     """Floor the point to the next lower multiple of bucket_size"""
@@ -16,14 +17,11 @@ def plot_histogram(points: List[float], bucket_size: float, title: str = ""):
     histogram = make_histogram(points, bucket_size)
     plt.bar(histogram.keys(), histogram.values(), width=bucket_size)
     plt.title(title)
-
-
-import random
 from scratch.probability import inverse_normal_cdf
 
 def random_normal() -> float:
     """Returns a random draw from a standard normal distribution"""
-    return inverse_normal_cdf(random.random())
+    return inverse_normal_cdf(secrets.SystemRandom().random())
 
 xs = [random_normal() for _ in range(1000)]
 ys1 = [ x + random_normal() / 2 for x in xs]
@@ -474,17 +472,15 @@ def main():
     # I don't know why this is necessary
     plt.gca().clear()
     plt.close()
-
-    import random
     from scratch.probability import inverse_normal_cdf
 
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
 
     # uniform between -100 and 100
-    uniform = [200 * random.random() - 100 for _ in range(10000)]
+    uniform = [200 * secrets.SystemRandom().random() - 100 for _ in range(10000)]
 
     # normal distribution with mean 0, standard deviation 57
-    normal = [57 * inverse_normal_cdf(random.random())
+    normal = [57 * inverse_normal_cdf(secrets.SystemRandom().random())
               for _ in range(10000)]
 
     plot_histogram(uniform, 10, "Uniform Histogram")
@@ -521,7 +517,7 @@ def main():
        row[3] = 6 if row[2] > -2 else 0
        return row
 
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     # each row has 4 points, but really we want the columns
     corr_rows = [random_row() for _ in range(num_points)]
 

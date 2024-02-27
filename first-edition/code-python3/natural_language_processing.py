@@ -1,7 +1,8 @@
-import math, random, re
+import math, re
 from collections import defaultdict, Counter
 from bs4 import BeautifulSoup
 import requests
+import secrets
 
 def plot_resumes(plt):
     data = [ ("big data", 100, 15), ("Hadoop", 95, 25), ("Python", 75, 50),
@@ -55,17 +56,17 @@ def generate_using_bigrams(transitions):
     result = []
     while True:
         next_word_candidates = transitions[current]    # bigrams (current, _)
-        current = random.choice(next_word_candidates)  # choose one at random
+        current = secrets.SystemRandom().choice(next_word_candidates)  # choose one at random
         result.append(current)                         # append it to results
         if current == ".": return " ".join(result)     # if "." we're done
 
 def generate_using_trigrams(starts, trigram_transitions):
-    current = random.choice(starts)   # choose a random starting word
+    current = secrets.SystemRandom().choice(starts)   # choose a random starting word
     prev = "."                        # and precede it with a '.'
     result = [current]
     while True:
         next_word_candidates = trigram_transitions[(prev, current)]
-        next = random.choice(next_word_candidates)
+        next = secrets.SystemRandom().choice(next_word_candidates)
 
         prev, current = current, next
         result.append(current)
@@ -83,7 +84,7 @@ def expand(grammar, tokens):
         if is_terminal(token): continue
 
         # choose a replacement at random
-        replacement = random.choice(grammar[token])
+        replacement = secrets.SystemRandom().choice(grammar[token])
 
         if is_terminal(replacement):
             tokens[i] = replacement
@@ -102,7 +103,7 @@ def generate_sentence(grammar):
 #
 
 def roll_a_die():
-    return random.choice([1,2,3,4,5,6])
+    return secrets.SystemRandom().choice([1,2,3,4,5,6])
 
 def direct_sample():
     d1 = roll_a_die()
@@ -117,11 +118,11 @@ def random_x_given_y(y):
     if y <= 7:
         # if the total is 7 or less, the first die is equally likely to be
         # 1, 2, ..., (total - 1)
-        return random.randrange(1, y)
+        return secrets.SystemRandom().randrange(1, y)
     else:
         # if the total is 7 or more, the first die is equally likely to be
         # (total - 6), (total - 5), ..., 6
-        return random.randrange(y - 6, 7)
+        return secrets.SystemRandom().randrange(y - 6, 7)
 
 def gibbs_sample(num_iters=100):
     x, y = 1, 2 # doesn't really matter
@@ -143,7 +144,7 @@ def compare_distributions(num_samples=1000):
 
 def sample_from(weights):
     total = sum(weights)
-    rnd = total * random.random()       # uniform between 0 and total
+    rnd = total * secrets.SystemRandom().random()       # uniform between 0 and total
     for i, w in enumerate(weights):
         rnd -= w                        # return the smallest i such that
         if rnd <= 0: return i           # sum(weights[:(i+1)]) >= rnd
@@ -207,8 +208,8 @@ def choose_new_topic(d, word):
                         for k in range(K)])
 
 
-random.seed(0)
-document_topics = [[random.randrange(K) for word in document]
+secrets.SystemRandom().seed(0)
+document_topics = [[secrets.SystemRandom().randrange(K) for word in document]
                    for document in documents]
 
 for d in range(D):
@@ -248,7 +249,7 @@ if __name__ == "__main__":
     for prev, current in bigrams:
         transitions[prev].append(current)
 
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     print("bigram sentences")
     for i in range(10):
         print(i, generate_using_bigrams(transitions))

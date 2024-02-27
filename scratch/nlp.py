@@ -1,5 +1,7 @@
 
 import matplotlib.pyplot as plt
+import secrets
+
 plt.gca().clear()
 
 data = [ ("big data", 100, 15), ("Hadoop", 95, 25), ("Python", 75, 50),
@@ -121,7 +123,7 @@ from typing import Tuple
 import random
 
 def roll_a_die() -> int:
-    return random.choice([1, 2, 3, 4, 5, 6])
+    return secrets.SystemRandom().choice([1, 2, 3, 4, 5, 6])
 
 def direct_sample() -> Tuple[int, int]:
     d1 = roll_a_die()
@@ -136,11 +138,11 @@ def random_x_given_y(y: int) -> int:
     if y <= 7:
         # if the total is 7 or less, the first die is equally likely to be
         # 1, 2, ..., (total - 1)
-        return random.randrange(1, y)
+        return secrets.SystemRandom().randrange(1, y)
     else:
         # if the total is 7 or more, the first die is equally likely to be
         # (total - 6), (total - 5), ..., 6
-        return random.randrange(y - 6, 7)
+        return secrets.SystemRandom().randrange(y - 6, 7)
 
 def gibbs_sample(num_iters: int = 100) -> Tuple[int, int]:
     x, y = 1, 2 # doesn't really matter
@@ -159,7 +161,7 @@ def compare_distributions(num_samples: int = 1000) -> Dict[int, List[int]]:
 def sample_from(weights: List[float]) -> int:
     """returns i with probability weights[i] / sum(weights)"""
     total = sum(weights)
-    rnd = total * random.random()      # uniform between 0 and total
+    rnd = total * secrets.SystemRandom().random()      # uniform between 0 and total
     for i, w in enumerate(weights):
         rnd -= w                       # return the smallest i such that
         if rnd <= 0: return i          # weights[0] + ... + weights[i] >= rnd
@@ -237,8 +239,8 @@ def choose_new_topic(d: int, word: str) -> int:
     return sample_from([topic_weight(d, word, k)
                         for k in range(K)])
 
-random.seed(0)
-document_topics = [[random.randrange(K) for word in document]
+secrets.SystemRandom().seed(0)
+document_topics = [[secrets.SystemRandom().randrange(K) for word in document]
                    for document in documents]
 
 for d in range(D):
@@ -307,17 +309,17 @@ adjectives = ["slow", "fast", "soft", "hard"]
 def make_sentence() -> str:
     return " ".join([
         "The",
-        random.choice(colors),
-        random.choice(nouns),
-        random.choice(verbs),
-        random.choice(adverbs),
-        random.choice(adjectives),
+        secrets.SystemRandom().choice(colors),
+        secrets.SystemRandom().choice(nouns),
+        secrets.SystemRandom().choice(verbs),
+        secrets.SystemRandom().choice(adverbs),
+        secrets.SystemRandom().choice(adjectives),
         "."
     ])
 
 NUM_SENTENCES = 50
 
-random.seed(0)
+secrets.SystemRandom().seed(0)
 sentences = [make_sentence() for _ in range(NUM_SENTENCES)]
 
 from scratch.deep_learning import Tensor
@@ -557,7 +559,7 @@ def main():
     
     from scratch.deep_learning import Sequential, Linear
     
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     EMBEDDING_DIM = 5  # seems like a good size
     
     # Define the embedding layer separately, so we can reference it.
@@ -695,7 +697,7 @@ def main():
     optimizer = Momentum(learning_rate=0.01, momentum=0.9)
     
     for epoch in range(300):
-        random.shuffle(companies)  # Train in a different order each epoch.
+        secrets.SystemRandom().shuffle(companies)  # Train in a different order each epoch.
         epoch_loss = 0             # Track the loss.
         for company in tqdm.tqdm(companies):
             rnn1.reset_hidden_state()  # Reset both hidden states.
