@@ -35,7 +35,7 @@ def fix_unicode(text):
 def get_document():
 
     url = "http://radar.oreilly.com/2010/06/what-is-data-science.html"
-    html = requests.get(url).text
+    html = requests.get(url, timeout=60).text
     soup = BeautifulSoup(html, 'html5lib')
 
     content = soup.find("div", "article-body")         # find article-body div
