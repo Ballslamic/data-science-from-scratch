@@ -1,5 +1,6 @@
 from typing import Tuple
 import math
+import secrets
 
 def normal_approximation_to_binomial(n: int, p: float) -> Tuple[float, float]:
     """Returns mu and sigma corresponding to a Binomial(n, p)"""
@@ -117,11 +118,9 @@ def two_sided_p_value(x: float, mu: float = 0, sigma: float = 1) -> float:
 
 two_sided_p_value(529.5, mu_0, sigma_0)   # 0.062
 
-import random
-
 extreme_value_count = 0
 for _ in range(1000):
-    num_heads = sum(1 if random.random() < 0.5 else 0    # Count # of heads
+    num_heads = sum(1 if secrets.SystemRandom().random() < 0.5 else 0    # Count # of heads
                     for _ in range(1000))                # in 1000 flips,
     if num_heads >= 530 or num_heads <= 470:             # and count how often
         extreme_value_count += 1                         # the # is 'extreme'
@@ -157,14 +156,14 @@ from typing import List
 
 def run_experiment() -> List[bool]:
     """Flips a fair coin 1000 times, True = heads, False = tails"""
-    return [random.random() < 0.5 for _ in range(1000)]
+    return [secrets.SystemRandom().random() < 0.5 for _ in range(1000)]
 
 def reject_fairness(experiment: List[bool]) -> bool:
     """Using the 5% significance levels"""
     num_heads = len([flip for flip in experiment if flip])
     return num_heads < 469 or num_heads > 531
 
-random.seed(0)
+secrets.SystemRandom().seed(0)
 experiments = [run_experiment() for _ in range(1000)]
 num_rejections = len([experiment
                       for experiment in experiments

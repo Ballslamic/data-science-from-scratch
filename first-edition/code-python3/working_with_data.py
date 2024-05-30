@@ -5,9 +5,10 @@ from linear_algebra import shape, get_row, get_column, make_matrix, \
 from stats import correlation, standard_deviation, mean
 from probability import inverse_normal_cdf
 from gradient_descent import maximize_batch
-import math, random, csv
+import math, csv
 import matplotlib.pyplot as plt
 import dateutil.parser
+import secrets
 
 def bucketize(point, bucket_size):
     """floor the point to the next lower multiple of bucket_size"""
@@ -25,10 +26,10 @@ def plot_histogram(points, bucket_size, title=""):
 
 def compare_two_distributions():
 
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
 
-    uniform = [random.randrange(-100,101) for _ in range(200)]
-    normal = [57 * inverse_normal_cdf(random.random())
+    uniform = [secrets.SystemRandom().randrange(-100,101) for _ in range(200)]
+    normal = [57 * inverse_normal_cdf(secrets.SystemRandom().random())
               for _ in range(200)]
 
     plot_histogram(uniform, 10, "Uniform Histogram")
@@ -36,7 +37,7 @@ def compare_two_distributions():
 
 def random_normal():
     """returns a random draw from a standard normal distribution"""
-    return inverse_normal_cdf(random.random())
+    return inverse_normal_cdf(secrets.SystemRandom().random())
 
 xs = [random_normal() for _ in range(1000)]
 ys1 = [ x + random_normal() / 2 for x in xs]
@@ -75,7 +76,7 @@ def make_scatterplot_matrix():
         row[2] = row[0] + row[1] + 5 * random_normal()
         row[3] = 6 if row[2] > -2 else 0
         return row
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     data = [random_row()
             for _ in range(num_points)]
 
