@@ -1,5 +1,7 @@
 
 # Just stick some data there
+from security import safe_requests
+
 with open('email_addresses.txt', 'w') as f:
     f.write("joelgrus@gmail.com\n")
     f.write("joel@m.datasciencester.com\n")
@@ -229,7 +231,7 @@ def main():
     press_releases: Dict[str, Set[str]] = {}
     
     for house_url in good_urls:
-        html = requests.get(house_url).text
+        html = safe_requests.get(house_url).text
         soup = BeautifulSoup(html, 'html5lib')
         pr_links = {a['href'] for a in soup('a') if 'press releases' in a.text.lower()}
         print(f"{house_url}: {pr_links}")
@@ -238,7 +240,7 @@ def main():
     for house_url, pr_links in press_releases.items():
         for pr_link in pr_links:
             url = f"{house_url}/{pr_link}"
-            text = requests.get(url).text
+            text = safe_requests.get(url).text
     
             if paragraph_mentions(text, 'data'):
                 print(f"{house_url}")
