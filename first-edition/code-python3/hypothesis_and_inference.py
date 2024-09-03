@@ -1,5 +1,6 @@
 from probability import normal_cdf, inverse_normal_cdf
-import math, random
+import math
+import secrets
 
 def normal_approximation_to_binomial(n, p):
     """finds mu and sigma corresponding to a Binomial(n, p)"""
@@ -67,7 +68,7 @@ def two_sided_p_value(x, mu=0, sigma=1):
 def count_extreme_values():
     extreme_value_count = 0
     for _ in range(100000):
-        num_heads = sum(1 if random.random() < 0.5 else 0    # count # of heads
+        num_heads = sum(1 if secrets.SystemRandom().random() < 0.5 else 0    # count # of heads
                         for _ in range(1000))                # in 1000 flips
         if num_heads >= 530 or num_heads <= 470:             # and count how often
             extreme_value_count += 1                         # the # is 'extreme'
@@ -85,7 +86,7 @@ lower_p_value = normal_probability_below
 
 def run_experiment():
     """flip a fair coin 1000 times, True = heads, False = tails"""
-    return [random.random() < 0.5 for _ in range(1000)]
+    return [secrets.SystemRandom().random() < 0.5 for _ in range(1000)]
 
 def reject_fairness(experiment):
     """using the 5% significance levels"""
@@ -173,7 +174,7 @@ if __name__ == "__main__":
 
     print("P-hacking")
 
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     experiments = [run_experiment() for _ in range(1000)]
     num_rejections = len([experiment
                           for experiment in experiments

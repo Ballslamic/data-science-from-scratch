@@ -1,3 +1,5 @@
+import secrets
+
 users_interests = [
     ["Hadoop", "Big Data", "HBase", "Java", "Spark", "Storm", "Cassandra"],
     ["NoSQL", "MongoDB", "Cassandra", "HBase", "Postgres"],
@@ -242,10 +244,8 @@ def main():
     # And then print them in order
     for avg_rating, movie_id in sorted(avg_ratings, reverse=True):
         print(f"{avg_rating:.2f} {movies[movie_id]}")
-    
-    import random
-    random.seed(0)
-    random.shuffle(ratings)
+    secrets.SystemRandom().seed(0)
+    secrets.SystemRandom().shuffle(ratings)
     
     split1 = int(len(ratings) * 0.7)
     split2 = int(len(ratings) * 0.85)

@@ -2,7 +2,8 @@ from collections import Counter, defaultdict
 from linear_algebra import vector_subtract
 from stats import mean, correlation, standard_deviation, de_mean
 from gradient_descent import minimize_stochastic
-import math, random
+import math
+import secrets
 
 def predict(alpha, beta, x_i):
     return beta * x_i + alpha
@@ -56,8 +57,8 @@ if __name__ == "__main__":
 
     print("gradient descent:")
     # choose random value to start
-    random.seed(0)
-    theta = [random.random(), random.random()]
+    secrets.SystemRandom().seed(0)
+    theta = [secrets.SystemRandom().random(), secrets.SystemRandom().random()]
     alpha, beta = minimize_stochastic(squared_error,
                                       squared_error_gradient,
                                       num_friends_good,

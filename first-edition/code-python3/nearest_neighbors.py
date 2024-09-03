@@ -1,8 +1,9 @@
 from collections import Counter
 from linear_algebra import distance
 from stats import mean
-import math, random
+import math
 import matplotlib.pyplot as plt
+import secrets
 
 def raw_majority_vote(labels):
     votes = Counter(labels)
@@ -96,7 +97,7 @@ def classify_and_plot_grid(k=1):
 #
 
 def random_point(dim):
-    return [random.random() for _ in range(dim)]
+    return [secrets.SystemRandom().random() for _ in range(dim)]
 
 def random_distances(dim, num_pairs):
     return [distance(random_point(dim), random_point(dim))
@@ -127,7 +128,7 @@ if __name__ == "__main__":
     avg_distances = []
     min_distances = []
 
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     for dim in dimensions:
         distances = random_distances(dim, 10000)  # 10,000 random pairs
         avg_distances.append(mean(distances))     # track the average

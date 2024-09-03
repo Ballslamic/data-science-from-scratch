@@ -1,4 +1,5 @@
 from scratch.linear_algebra import Vector
+import secrets
 
 def num_differences(v1: Vector, v2: Vector) -> int:
     assert len(v1) == len(v2)
@@ -39,7 +40,7 @@ class KMeans:
 
     def train(self, inputs: List[Vector]) -> None:
         # Start with random assignments
-        assignments = [random.randrange(self.k) for _ in inputs]
+        assignments = [secrets.SystemRandom().randrange(self.k) for _ in inputs]
 
         with tqdm.tqdm(itertools.count()) as t:
             for _ in t:
@@ -162,7 +163,7 @@ def main():
     
     inputs: List[List[float]] = [[-14,-5],[13,13],[20,23],[-19,-11],[-9,-16],[21,27],[-49,15],[26,13],[-46,5],[-34,-1],[11,15],[-49,0],[-22,-16],[19,28],[-12,-8],[-13,-19],[-41,8],[-11,-6],[-25,-9],[-18,-3]]
     
-    random.seed(12)                   # so you get the same results as me
+    secrets.SystemRandom().seed(12)                   # so you get the same results as me
     clusterer = KMeans(k=3)
     clusterer.train(inputs)
     means = sorted(clusterer.means)   # sort for the unit test
@@ -174,7 +175,7 @@ def main():
     assert squared_distance(means[1], [-16, -10]) < 1
     assert squared_distance(means[2], [18, 20]) < 1
     
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     clusterer = KMeans(k=2)
     clusterer.train(inputs)
     means = sorted(clusterer.means)
