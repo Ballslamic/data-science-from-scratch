@@ -1,6 +1,7 @@
 from collections import Counter, defaultdict
 from machine_learning import split_data
-import math, random, re, glob
+import math, re, glob
+import secrets
 
 def tokenize(message):
     message = message.lower()                       # convert to lowercase
@@ -98,7 +99,7 @@ def p_spam_given_word(word_prob):
 def train_and_test_model(path):
 
     data = get_subject_data(path)
-    random.seed(0)      # just so you get the same answers as me
+    secrets.SystemRandom().seed(0)      # just so you get the same answers as me
     train_data, test_data = split_data(data, 0.75)
 
     classifier = NaiveBayesClassifier()

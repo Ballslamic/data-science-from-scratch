@@ -1,4 +1,5 @@
 from typing import NamedTuple
+import secrets
 
 class User(NamedTuple):
     id: int
@@ -119,12 +120,11 @@ def matrix_times_vector(m: Matrix, v: Vector) -> Vector:
     return [dot(row, v) for row in m]  # output has length nr
 
 from typing import Tuple
-import random
 from scratch.linear_algebra import magnitude, distance
 
 def find_eigenvector(m: Matrix,
                      tolerance: float = 0.00001) -> Tuple[Vector, float]:
-    guess = [random.random() for _ in m]
+    guess = [secrets.SystemRandom().random() for _ in m]
 
     while True:
         result = matrix_times_vector(m, guess)    # transform guess

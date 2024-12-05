@@ -1,7 +1,8 @@
 from collections import Counter
 from linear_algebra import distance, vector_subtract, scalar_multiply
 from functools import reduce
-import math, random
+import math
+import secrets
 
 def sum_of_squares(v):
     """computes the sum of squared elements in v"""
@@ -108,7 +109,7 @@ def maximize_batch(target_fn, gradient_fn, theta_0, tolerance=0.000001):
 def in_random_order(data):
     """generator that returns the elements of data in random order"""
     indexes = [i for i, _ in enumerate(data)]  # create a list of indexes
-    random.shuffle(indexes)                    # shuffle them
+    secrets.SystemRandom().shuffle(indexes)                    # shuffle them
     for i in indexes:                          # return the data in that order
         yield data[i]
 
@@ -151,7 +152,7 @@ if __name__ == "__main__":
 
     print("using the gradient")
 
-    v = [random.randint(-10,10) for i in range(3)]
+    v = [secrets.SystemRandom().randint(-10,10) for i in range(3)]
 
     tolerance = 0.0000001
 
@@ -170,7 +171,7 @@ if __name__ == "__main__":
 
     print("using minimize_batch")
 
-    v = [random.randint(-10,10) for i in range(3)]
+    v = [secrets.SystemRandom().randint(-10,10) for i in range(3)]
 
     v = minimize_batch(sum_of_squares, sum_of_squares_gradient, v)
 

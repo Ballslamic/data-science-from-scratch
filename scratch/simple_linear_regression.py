@@ -1,3 +1,5 @@
+import secrets
+
 def predict(alpha: float, beta: float, x_i: float) -> float:
     return beta * x_i + alpha
 
@@ -57,14 +59,13 @@ rsq = r_squared(alpha, beta, num_friends_good, daily_minutes_good)
 assert 0.328 < rsq < 0.330
 
 def main():
-    import random
     import tqdm
     from scratch.gradient_descent import gradient_step
     
     num_epochs = 10000
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     
-    guess = [random.random(), random.random()]  # choose random value to start
+    guess = [secrets.SystemRandom().random(), secrets.SystemRandom().random()]  # choose random value to start
     
     learning_rate = 0.00001
     
