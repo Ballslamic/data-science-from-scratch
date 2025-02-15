@@ -46,7 +46,7 @@ def scrape(num_pages=31):
     for page_num in range(1, num_pages + 1):
         print("souping page", page_num)
         url = base_url + str(page_num)
-        soup = BeautifulSoup(requests.get(url).text, 'html5lib')
+        soup = BeautifulSoup(requests.get(url, timeout=60).text, 'html5lib')
 
         for td in soup('td', 'thumbtext'):
             if not is_video(td):
@@ -83,7 +83,7 @@ def plot_years(plt, books):
 
 endpoint = "https://api.github.com/users/joelgrus/repos"
 
-repos = json.loads(requests.get(endpoint).text)
+repos = json.loads(requests.get(endpoint, timeout=60).text)
 
 from dateutil.parser import parse
 
@@ -191,7 +191,7 @@ if __name__ == "__main__":
             writer.writerow([stock, price])
 
     print("BeautifulSoup")
-    html = requests.get("http://www.example.com").text
+    html = requests.get("http://www.example.com", timeout=60).text
     soup = BeautifulSoup(html)
     print(soup)
     print()
