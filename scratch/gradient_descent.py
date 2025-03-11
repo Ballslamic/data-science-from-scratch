@@ -1,4 +1,5 @@
 from scratch.linear_algebra import Vector, dot
+import secrets
 
 def sum_of_squares(v: Vector) -> float:
     """Computes the sum of squared elements in v"""
@@ -22,8 +23,6 @@ def estimate_gradient(f: Callable[[Vector], float],
                       h: float = 0.0001):
     return [partial_difference_quotient(f, v, i, h)
             for i in range(len(v))]
-
-import random
 from scratch.linear_algebra import distance, add, scalar_multiply
 
 def gradient_step(v: Vector, gradient: Vector, step_size: float) -> Vector:
@@ -57,7 +56,7 @@ def minibatches(dataset: List[T],
     # Start indexes 0, batch_size, 2 * batch_size, ...
     batch_starts = [start for start in range(0, len(dataset), batch_size)]
 
-    if shuffle: random.shuffle(batch_starts)  # shuffle the batches
+    if shuffle: secrets.SystemRandom().shuffle(batch_starts)  # shuffle the batches
 
     for start in batch_starts:
         end = start + batch_size
@@ -93,7 +92,7 @@ def main():
     # "Using the Gradient" example
     
     # pick a random starting point
-    v = [random.uniform(-10, 10) for i in range(3)]
+    v = [secrets.SystemRandom().uniform(-10, 10) for i in range(3)]
     
     for epoch in range(1000):
         grad = sum_of_squares_gradient(v)    # compute the gradient at v
@@ -108,7 +107,7 @@ def main():
     from scratch.linear_algebra import vector_mean
     
     # Start with random values for slope and intercept.
-    theta = [random.uniform(-1, 1), random.uniform(-1, 1)]
+    theta = [secrets.SystemRandom().uniform(-1, 1), secrets.SystemRandom().uniform(-1, 1)]
     
     learning_rate = 0.001
     
@@ -126,7 +125,7 @@ def main():
     
     # Minibatch gradient descent example
     
-    theta = [random.uniform(-1, 1), random.uniform(-1, 1)]
+    theta = [secrets.SystemRandom().uniform(-1, 1), secrets.SystemRandom().uniform(-1, 1)]
     
     for epoch in range(1000):
         for batch in minibatches(inputs, batch_size=20):
@@ -141,7 +140,7 @@ def main():
     
     # Stochastic gradient descent example
     
-    theta = [random.uniform(-1, 1), random.uniform(-1, 1)]
+    theta = [secrets.SystemRandom().uniform(-1, 1), secrets.SystemRandom().uniform(-1, 1)]
     
     for epoch in range(100):
         for x, y in inputs:

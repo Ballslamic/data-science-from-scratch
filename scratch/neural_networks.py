@@ -1,4 +1,5 @@
 from scratch.linear_algebra import Vector, dot
+import secrets
 
 def step_function(x: float) -> float:
     return 1.0 if x >= 0 else 0.0
@@ -151,8 +152,7 @@ assert argmax([-1, 0]) == 1               # items[1] is largest
 assert argmax([-1, 10, 5, 20, -3]) == 3   # items[3] is largest
 
 def main():
-    import random
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     
     # training data
     xs = [[0., 0], [0., 1], [1., 0], [1., 1]]
@@ -160,10 +160,10 @@ def main():
     
     # start with random weights
     network = [ # hidden layer: 2 inputs -> 2 outputs
-                [[random.random() for _ in range(2 + 1)],   # 1st hidden neuron
-                 [random.random() for _ in range(2 + 1)]],  # 2nd hidden neuron
+                [[secrets.SystemRandom().random() for _ in range(2 + 1)],   # 1st hidden neuron
+                 [secrets.SystemRandom().random() for _ in range(2 + 1)]],  # 2nd hidden neuron
                 # output layer: 2 inputs -> 1 output
-                [[random.random() for _ in range(2 + 1)]]   # 1st output neuron
+                [[secrets.SystemRandom().random() for _ in range(2 + 1)]]   # 1st output neuron
               ]
     
     from scratch.gradient_descent import gradient_step
@@ -193,10 +193,10 @@ def main():
     
     network = [
         # hidden layer: 10 inputs -> NUM_HIDDEN outputs
-        [[random.random() for _ in range(10 + 1)] for _ in range(NUM_HIDDEN)],
+        [[secrets.SystemRandom().random() for _ in range(10 + 1)] for _ in range(NUM_HIDDEN)],
     
         # output_layer: NUM_HIDDEN inputs -> 4 outputs
-        [[random.random() for _ in range(NUM_HIDDEN + 1)] for _ in range(4)]
+        [[secrets.SystemRandom().random() for _ in range(NUM_HIDDEN + 1)] for _ in range(4)]
     ]
     
     from scratch.linear_algebra import squared_distance
