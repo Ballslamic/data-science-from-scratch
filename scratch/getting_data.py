@@ -87,7 +87,7 @@ import requests
 # Recall that whitespace-separated strings get concatenated.
 url = ("https://raw.githubusercontent.com/"
        "joelgrus/data/master/getting-data.html")
-html = requests.get(url).text
+html = requests.get(url, timeout=60).text
 soup = BeautifulSoup(html, 'html5lib')
 
 first_paragraph = soup.find('p')        # or just soup.p
@@ -168,7 +168,7 @@ def main():
     import requests
     
     url = "https://www.house.gov/representatives"
-    text = requests.get(url).text
+    text = requests.get(url, timeout=60).text
     soup = BeautifulSoup(text, "html5lib")
     
     all_urls = [a['href']
@@ -207,7 +207,7 @@ def main():
     
     assert len(good_urls) < num_original_good_urls
     
-    html = requests.get('https://jayapal.house.gov').text
+    html = requests.get('https://jayapal.house.gov', timeout=60).text
     soup = BeautifulSoup(html, 'html5lib')
     
     # Use a set because the links might appear multiple times.
@@ -229,7 +229,7 @@ def main():
     press_releases: Dict[str, Set[str]] = {}
     
     for house_url in good_urls:
-        html = requests.get(house_url).text
+        html = requests.get(house_url, timeout=60).text
         soup = BeautifulSoup(html, 'html5lib')
         pr_links = {a['href'] for a in soup('a') if 'press releases' in a.text.lower()}
         print(f"{house_url}: {pr_links}")
@@ -238,7 +238,7 @@ def main():
     for house_url, pr_links in press_releases.items():
         for pr_link in pr_links:
             url = f"{house_url}/{pr_link}"
-            text = requests.get(url).text
+            text = requests.get(url, timeout=60).text
     
             if paragraph_mentions(text, 'data'):
                 print(f"{house_url}")
@@ -249,7 +249,7 @@ def main():
     github_user = "joelgrus"
     endpoint = f"https://api.github.com/users/{github_user}/repos"
     
-    repos = json.loads(requests.get(endpoint).text)
+    repos = json.loads(requests.get(endpoint, timeout=60).text)
     
     from collections import Counter
     from dateutil.parser import parse
