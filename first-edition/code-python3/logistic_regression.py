@@ -5,7 +5,8 @@ from gradient_descent import maximize_stochastic, maximize_batch
 from working_with_data import rescale
 from machine_learning import train_test_split
 from multiple_regression import estimate_beta, predict
-import math, random
+import math
+import secrets
 
 def logistic(x):
     return 1.0 / (1 + math.exp(-x))
@@ -57,7 +58,7 @@ if __name__ == "__main__":
 
     print("logistic regression:")
 
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     x_train, x_test, y_train, y_test = train_test_split(rescaled_x, y, 0.33)
 
     # want to maximize log likelihood on the training data

@@ -1,7 +1,8 @@
 from linear_algebra import squared_distance, vector_mean, distance
-import math, random
+import math
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
+import secrets
 
 class KMeans:
     """performs k-means clustering"""
@@ -17,7 +18,7 @@ class KMeans:
 
     def train(self, inputs):
 
-        self.means = random.sample(inputs, self.k)
+        self.means = secrets.SystemRandom().sample(inputs, self.k)
         assignments = None
 
         while True:
@@ -163,14 +164,14 @@ if __name__ == "__main__":
 
     inputs = [[-14,-5],[13,13],[20,23],[-19,-11],[-9,-16],[21,27],[-49,15],[26,13],[-46,5],[-34,-1],[11,15],[-49,0],[-22,-16],[19,28],[-12,-8],[-13,-19],[-41,8],[-11,-6],[-25,-9],[-18,-3]]
 
-    random.seed(0) # so you get the same results as me
+    secrets.SystemRandom().seed(0) # so you get the same results as me
     clusterer = KMeans(3)
     clusterer.train(inputs)
     print("3-means:")
     print(clusterer.means)
     print()
 
-    random.seed(0)
+    secrets.SystemRandom().seed(0)
     clusterer = KMeans(2)
     clusterer.train(inputs)
     print("2-means:")
