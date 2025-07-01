@@ -3,6 +3,7 @@ import math, random, csv, json, re
 
 from bs4 import BeautifulSoup
 import requests
+from security import safe_requests
 
 ######
 #
@@ -46,7 +47,7 @@ def scrape(num_pages=31):
     for page_num in range(1, num_pages + 1):
         print("souping page", page_num)
         url = base_url + str(page_num)
-        soup = BeautifulSoup(requests.get(url).text, 'html5lib')
+        soup = BeautifulSoup(safe_requests.get(url).text, 'html5lib')
 
         for td in soup('td', 'thumbtext'):
             if not is_video(td):
